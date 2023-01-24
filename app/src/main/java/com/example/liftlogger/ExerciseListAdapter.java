@@ -5,6 +5,8 @@ import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -16,12 +18,11 @@ import java.util.ArrayList;
 public class ExerciseListAdapter extends RecyclerView.Adapter<ExerciseListAdapter.ExerciseViewHolder> {
 
     Context context;
-    ArrayList exerciseIDs, exerciseNames;
+    ArrayList<ExerciseListItem> exerciseList;
 
-    public ExerciseListAdapter(Context context, ArrayList exerciseIDs, ArrayList exerciseNames) {
+    public ExerciseListAdapter(Context context, ArrayList exerciseList) {
         this.context = context;
-        this.exerciseIDs = exerciseIDs;
-        this.exerciseNames = exerciseNames;
+        this.exerciseList = exerciseList;
     }
 
     @NonNull
@@ -34,30 +35,53 @@ public class ExerciseListAdapter extends RecyclerView.Adapter<ExerciseListAdapte
 
     @Override
     public void onBindViewHolder(@NonNull final ExerciseViewHolder holder, final int position) {
-        holder.tvName.setText(String.valueOf(exerciseNames.get(position)));
+        holder.tvName.setText(String.valueOf(exerciseList.get(position).getName()));
+        int imageResource = exerciseList.get(position).getFavourite() == 1 ? R.drawable.ic_baseline_star_24 : R.drawable.ic_baseline_star_outline_24;
+        holder.btnFavourite.setImageResource(imageResource);
         holder.mainLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(context, ViewExercise.class);
-                intent.putExtra("ID", String.valueOf(exerciseIDs.get(holder.getAdapterPosition())));
+                intent.putExtra("ID", String.valueOf(exerciseList.get(holder.getAdapterPosition()).getID()));
                 context.startActivity(intent);
+            }
+        });
+        holder.btnFavourite.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                String id = String.valueOf(exerciseList.get(holder.getAdapterPosition()).getID());
+                ExerciseDatabaseHelper db = new ExerciseDatabaseHelper(context);
+                boolean setFavourite = true;
+                if(db.getFavouriteExercise(id)) {
+                    setFavourite = false;
+                }
+                db.setFavouriteExercise(id, setFavourite);
+
+                ImageView imageView = (ImageView) view;
+                if(setFavourite) {
+                    imageView.setImageResource(R.drawable.ic_baseline_star_24);
+                } else {
+                    imageView.setImageResource(R.drawable.ic_baseline_star_outline_24);
+                }
             }
         });
     }
 
     @Override
     public int getItemCount() {
-        return exerciseNames.size();
+        return exerciseList.size();
     }
 
     public static class ExerciseViewHolder extends RecyclerView.ViewHolder {
 
         TextView tvName;
+        ImageView btnFavourite;
         ConstraintLayout mainLayout;
 
         public ExerciseViewHolder(@NonNull View itemView) {
             super(itemView);
             tvName = itemView.findViewById(R.id.textViewExerciseItemName);
+            btnFavourite = itemView.findViewById(R.id.buttonFavourite);
             mainLayout = itemView.findViewById(R.id.mainLayout);
         }
     }

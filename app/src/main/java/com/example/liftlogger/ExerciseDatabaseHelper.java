@@ -25,6 +25,7 @@ public class ExerciseDatabaseHelper extends SQLiteOpenHelper {
     private static final String SET_TABLE_EXERCISE_ID = "exercise_id";
     private static final String SET_TABLE_WEIGHT_KG = "weight_kg";
     private static final String SET_TABLE_REPETITIONS = "repetitions";
+    private static final String SET_TABLE_FAVOURITE = "favourite";
 
 
 
@@ -40,7 +41,7 @@ public class ExerciseDatabaseHelper extends SQLiteOpenHelper {
         // Create the exercise names table
         query =
                 "CREATE TABLE IF NOT EXISTS " + EXERCISE_TABLE + " (" + EXERCISE_TABLE_ID +
-                        " INTEGER PRIMARY KEY AUTOINCREMENT, " + EXERCISE_TABLE_NAME + " TEXT, " + EXERCISE_TABLE_FAVOURITE + " INTEGER);";
+                        " INTEGER PRIMARY KEY AUTOINCREMENT, " + EXERCISE_TABLE_NAME + " TEXT, " + EXERCISE_TABLE_FAVOURITE + " INTEGER" + ");";
         db.execSQL(query);
 
         // Create the exercise sets table
@@ -48,13 +49,13 @@ public class ExerciseDatabaseHelper extends SQLiteOpenHelper {
                 "CREATE TABLE IF NOT EXISTS " + SET_TABLE + " (" + SET_TABLE_ID +
                         " INTEGER PRIMARY KEY AUTOINCREMENT, " + SET_TABLE_TIMESTAMP + " INTEGER, " +
                         SET_TABLE_EXERCISE_ID + " TEXT, " + SET_TABLE_WEIGHT_KG + " REAL, " +
-                        SET_TABLE_REPETITIONS + " INTEGER" + ");";
+                        SET_TABLE_REPETITIONS + " INTEGER, " + SET_TABLE_FAVOURITE + " INTEGER" + ");";
         db.execSQL(query);
     }
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
-        db.execSQL("DROP TABLE IF EXISTS " + EXERCISE_TABLE);
+        //db.execSQL("DROP TABLE IF EXISTS " + EXERCISE_TABLE);
 
     }
 
@@ -81,6 +82,7 @@ public class ExerciseDatabaseHelper extends SQLiteOpenHelper {
         cv.put(SET_TABLE_TIMESTAMP, timestamp);
         cv.put(SET_TABLE_WEIGHT_KG, weight);
         cv.put(SET_TABLE_REPETITIONS, repetitions);
+        cv.put(SET_TABLE_FAVOURITE, 0); // Initialize favourite as False
 
         long result = db.insert(SET_TABLE, null, cv);
         if(result == -1) {
@@ -90,8 +92,9 @@ public class ExerciseDatabaseHelper extends SQLiteOpenHelper {
         }
     }
 
-    public Cursor readExerciseNames() {
-        String query = "SELECT * FROM " + EXERCISE_TABLE + " ORDER BY " + EXERCISE_TABLE_NAME + " ASC ";
+    public Cursor readExercises() {
+        String query = "SELECT * FROM " + EXERCISE_TABLE +
+                " ORDER BY " + EXERCISE_TABLE_FAVOURITE + " DESC, " + EXERCISE_TABLE_NAME + " ASC ";
         SQLiteDatabase db = this.getReadableDatabase();
 
         Cursor cursor = null;
@@ -104,7 +107,7 @@ public class ExerciseDatabaseHelper extends SQLiteOpenHelper {
 
     public Cursor readExerciseSets(String exerciseID) {
         String query = "SELECT * FROM " + SET_TABLE + " WHERE " + SET_TABLE_EXERCISE_ID + " = " + exerciseID +
-                " ORDER BY " + SET_TABLE_TIMESTAMP + " DESC";
+                " ORDER BY " + SET_TABLE_FAVOURITE + " DESC, " + SET_TABLE_TIMESTAMP + " DESC";
         SQLiteDatabase db = this.getReadableDatabase();
 
         Cursor cursor = null;
@@ -116,7 +119,7 @@ public class ExerciseDatabaseHelper extends SQLiteOpenHelper {
     }
 
     public String getNameFromID(String id) {
-        String query = "SELECT * FROM " + EXERCISE_TABLE + " WHERE id = " + id;
+        String query = "SELECT * FROM " + EXERCISE_TABLE + " WHERE " + EXERCISE_TABLE_ID + " = " + id;
         SQLiteDatabase db = this.getReadableDatabase();
 
         Cursor cursor = null;
@@ -128,5 +131,35 @@ public class ExerciseDatabaseHelper extends SQLiteOpenHelper {
             name = cursor.getString(1);
         }
         return name;
+    }
+
+    public boolean getFavouriteExercise(String id) {
+        String query = "SELECT " + EXERCISE_TABLE_FAVOURITE + " FROM " + EXERCISE_TABLE + " WHERE " + EXERCISE_TABLE_ID + " = " + id;
+        SQLiteDatabase db = this.getReadableDatabase();
+
+        Cursor cursor = null;
+        if(db != null) {
+            cursor = db.rawQuery(query, null);
+        }
+        int isFavourite = 0;
+        if(cursor.moveToNext()) {
+            int colIndex = cursor.getColumnIndex(EXERCISE_TABLE_FAVOURITE);
+            if(colIndex >= 0) {
+                isFavourite = cursor.getInt(colIndex);
+            }
+        }
+        if(isFavourite == 1) {
+            return true;
+        }
+        return false;
+    }
+
+    public void setFavouriteExercise(String id, boolean isFavourite) {
+        String value = isFavourite ? "1" : "0";
+        String query = "UPDATE " + EXERCISE_TABLE + " SET " + EXERCISE_TABLE_FAVOURITE + " = " + value +
+                " WHERE " + EXERCISE_TABLE_ID + " = " + id;
+
+        SQLiteDatabase db = this.getWritableDatabase();
+        db.execSQL(query);
     }
 }

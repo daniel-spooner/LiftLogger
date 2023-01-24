@@ -19,7 +19,7 @@ public class MainActivity extends AppCompatActivity {
 
     ExerciseDatabaseHelper exerciseDB;
 
-    ArrayList<String> exerciseIDs, exerciseNames;
+    ArrayList<ExerciseListItem> exerciseList;
     ExerciseListAdapter exerciseAdapter;
 
     @Override
@@ -31,12 +31,11 @@ public class MainActivity extends AppCompatActivity {
         exerciseDB = new ExerciseDatabaseHelper(MainActivity.this);
 
         // Initialize ArrayLists
-        exerciseIDs = new ArrayList<>();
-        exerciseNames = new ArrayList<>();
+        exerciseList = new ArrayList<>();
 
         // Initialize the recycler view adapter
         RecyclerView recyclerView = findViewById(R.id.recyclerView);
-        exerciseAdapter = new ExerciseListAdapter(this, exerciseIDs, exerciseNames);
+        exerciseAdapter = new ExerciseListAdapter(this, exerciseList);
         recyclerView.setAdapter(exerciseAdapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
     }
@@ -90,31 +89,25 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void displayExercises(String filter) {
-        exerciseNames.clear();
-        exerciseIDs.clear();
-        Cursor cursor = exerciseDB.readExerciseNames();
-        if(cursor.getCount() == 0) {
-            //Toast.makeText(this, "No data.", Toast.LENGTH_SHORT).show();
-        } else {
-            while(cursor.moveToNext()) {
-                exerciseIDs.add(cursor.getString(0)); // 0: id
-                exerciseNames.add(cursor.getString(1)); // 1: name
-            }
+        exerciseList.clear();
+        Cursor cursor = exerciseDB.readExercises();
+
+        while(cursor.moveToNext()) {
+            //TODO: Don't hardcode indices
+            exerciseList.add(new ExerciseListItem(
+                    cursor.getString(0), cursor.getString(1), cursor.getInt(2)
+            ));
         }
 
-        filter = filter.toLowerCase();
-        for(int i = 0; i < exerciseNames.size(); i ++) {
-            if(!exerciseNames.get(i).toLowerCase().startsWith(filter)) {
-                exerciseIDs.remove(i);
-                exerciseNames.remove(i);
+        for(int i = 0; i < exerciseList.size(); i ++) {
+            if(!exerciseList.get(i).getName().toLowerCase().startsWith(filter)) {
+                exerciseList.remove(i);
                 i--;
             }
         }
 
         RecyclerView recyclerView = findViewById(R.id.recyclerView);
         recyclerView.setAdapter(exerciseAdapter);
-//        recyclerView.setAdapter(adapter);
-//        recyclerView.setLayoutManager(new LinearLayoutManager(this));
     }
 
     public void pressAddExercise(View v) {
