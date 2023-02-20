@@ -5,16 +5,15 @@
 
     <item
         android:id="@+id/app_bar_search"
-        android:icon="@drawable/ic_search"
+        android:icon="@drawable/ic_baseline_search_24"
         android:title="Search"
         app:actionViewClass="androidx.appcompat.widget.SearchView"
         app:showAsAction="ifRoom|collapseActionView"/>
 
     <item
         android:id="@+id/app_bar_settings"
-        android:icon="@drawable/ic_setting"
         android:title="Settings"
-        app:actionViewClass="androidx.appcompat.widget.AppCompatImageButton"
+        app:actionViewClass="androidx.appcompat.widget.AppCompatImageView"
         app:showAsAction="never" />
 
 </menu>

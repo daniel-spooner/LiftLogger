@@ -14,7 +14,7 @@
         android:layout_marginEnd="8dp"
         android:layout_marginBottom="4dp"
         android:clickable="false"
-        app:cardBackgroundColor="#191919"
+        app:cardBackgroundColor="#000939"
         app:cardCornerRadius="5dp"
         app:cardElevation="8dp"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -24,17 +24,17 @@
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/constraintLayout2"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="5dp"
-            android:layout_marginBottom="5dp"
-            android:background="#191919">
+            android:layout_marginTop="8dp"
+            android:layout_marginBottom="8dp"
+            android:background="#00000000">
 
             <TextView
                 android:id="@+id/textViewSetItemTime"
-                android:layout_width="240dp"
+                android:layout_width="wrap_content"
                 android:layout_height="30dp"
-                android:layout_marginStart="8dp"
+                android:layout_marginStart="32dp"
                 android:text="Timestamp"
                 android:textAlignment="center"
                 android:textColor="#FFFFFF"
@@ -46,9 +46,10 @@
 
             <TextView
                 android:id="@+id/textViewSetItemReps"
-                android:layout_width="120dp"
+                android:layout_width="wrap_content"
                 android:layout_height="30dp"
-                android:layout_marginStart="8dp"
+                android:layout_marginTop="4dp"
+                android:layout_marginEnd="24dp"
                 android:layout_marginBottom="4dp"
                 android:gravity="center_vertical"
                 android:text="Reps"
@@ -58,23 +59,23 @@
                 android:textStyle="bold"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toEndOf="@+id/textViewSetItemTime"
-                app:layout_constraintTop_toBottomOf="@+id/textViewSetItemWeight" />
+                app:layout_constraintTop_toTopOf="parent" />
 
             <TextView
                 android:id="@+id/textViewSetItemWeight"
-                android:layout_width="120dp"
+                android:layout_width="wrap_content"
                 android:layout_height="30dp"
-                android:layout_marginStart="8dp"
                 android:layout_marginTop="4dp"
+                android:layout_marginEnd="24dp"
+                android:layout_marginBottom="4dp"
                 android:gravity="center_vertical"
                 android:text="Weight"
                 android:textAlignment="textStart"
                 android:textColor="#FFFFFF"
                 android:textSize="20sp"
                 android:textStyle="bold"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toEndOf="@+id/textViewSetItemTime"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toStartOf="@+id/textViewSetItemReps"
                 app:layout_constraintTop_toTopOf="parent" />
         </androidx.constraintlayout.widget.ConstraintLayout>
 

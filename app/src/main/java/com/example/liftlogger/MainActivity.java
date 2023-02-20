@@ -79,7 +79,7 @@ public class MainActivity extends AppCompatActivity {
 
         if (id == R.id.app_bar_settings) {
             pressSettings(item.getActionView());
-            item.setVisible(false);
+            item.setVisible(true);
         }
         return super.onOptionsItemSelected(item);
     }

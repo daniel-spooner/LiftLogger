@@ -1,6 +1,7 @@
 package com.example.liftlogger;
 
 import android.content.Context;
+import android.content.Intent;
 import android.text.format.DateFormat;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -18,15 +19,12 @@ import java.util.Date;
 public class SetListAdapter extends RecyclerView.Adapter<SetListAdapter.SetViewHolder> {
 
     Context context;
-    ArrayList setIDs, setTimes, setWeights, setRepetitions;
+    ArrayList<SetListItem> setList;
 
-    public SetListAdapter(Context context, ArrayList setIDs, ArrayList setTimes, ArrayList setWeights, ArrayList setRepetitions) {
+    public SetListAdapter(Context context, ArrayList setList) {
         this.context = context;
-        this.setIDs = setIDs;
-        this.setTimes = setTimes;
-        this.setWeights = setWeights;
-        this.setRepetitions = setRepetitions;
 
+        this.setList = setList;
     }
 
     @NonNull
@@ -42,13 +40,14 @@ public class SetListAdapter extends RecyclerView.Adapter<SetListAdapter.SetViewH
 
 
         String timeText, weightText, repetitionText;
-        timeText = String.valueOf(setTimes.get(position));
-        weightText = String.valueOf(setWeights.get(position)) + " lbs";
-        repetitionText = String.valueOf(setRepetitions.get(position)) + " reps";
+
+        timeText = String.valueOf(setList.get(position).getTime());
+        weightText = String.valueOf(setList.get(position).getWeight()) + " lbs";
+        repetitionText = String.valueOf(setList.get(position).getRepetitions()) + " reps";
 
         Date date = new Date(Long.parseLong(timeText));
 
-        timeText = (String) DateFormat.format("MMM dd yyyy HH:mm", Long.parseLong(timeText));
+        timeText = (String) DateFormat.format("hh:mm aa", Long.parseLong(timeText));
 
         holder.tvTime.setText(timeText);
         holder.tvWeight.setText(weightText);
@@ -58,16 +57,16 @@ public class SetListAdapter extends RecyclerView.Adapter<SetListAdapter.SetViewH
             // disable on click for sets for now
             @Override
             public void onClick(View view) {
-//                Intent intent = new Intent(context, ViewExercise.class);
-//                intent.putExtra("ID", String.valueOf(exerciseIDs.get(holder.getAdapterPosition())));
-//                context.startActivity(intent);
+                Intent intent = new Intent(context, EditSet.class);
+                intent.putExtra("ID", String.valueOf(setList.get(holder.getAdapterPosition()).getID()));
+                context.startActivity(intent);
             }
         });
     }
 
     @Override
     public int getItemCount() {
-        return setIDs.size();
+        return setList.size();
     }
 
     public static class SetViewHolder extends RecyclerView.ViewHolder {

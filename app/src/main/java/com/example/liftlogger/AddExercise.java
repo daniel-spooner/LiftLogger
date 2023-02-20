@@ -22,12 +22,6 @@ public class AddExercise extends AppCompatActivity {
         // Adding exercise to database
         ExerciseDatabaseHelper eDB = new ExerciseDatabaseHelper(AddExercise.this);
         eDB.addExercise(exerciseName.trim());
-        finish(); // This does not refresh the list
-
-        /*
-        Intent i = new Intent(this, ViewExercise.class);
-        i.putExtra("NAME", exerciseName);
-        startActivity(i);
-         */
+        finish();
     }
 }

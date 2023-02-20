@@ -1,13 +1,19 @@
 package com.example.liftlogger;
 
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.SearchView;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.Cursor;
 import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
+import android.view.inputmethod.EditorInfo;
 import android.widget.EditText;
 import android.widget.Toast;
 
@@ -21,7 +27,10 @@ public class ViewExercise extends AppCompatActivity {
     private Date m_currentTime;
     ExerciseDatabaseHelper m_exerciseDB;
 
-    ArrayList<String> setIDs, setTimes, setWeights, setRepetitions;
+    ArrayList<SetListItem> setList;
+    ArrayList<Calendar> dateList;
+
+    AlertDialog.Builder alertBuilder;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -36,10 +45,10 @@ public class ViewExercise extends AppCompatActivity {
         m_exerciseDB = new ExerciseDatabaseHelper(this);
 
         // Initialize ArrayLists
-        setIDs = new ArrayList<>();
-        setTimes = new ArrayList<>();
-        setWeights = new ArrayList<>();
-        setRepetitions = new ArrayList<>();
+        setList = new ArrayList<>();
+        dateList = new ArrayList<>();
+
+        alertBuilder = new AlertDialog.Builder(this);
 
         displaySets();
 
@@ -48,26 +57,81 @@ public class ViewExercise extends AppCompatActivity {
         setTitle(exerciseName);
     }
 
-    private void displaySets() {
-        setIDs.clear();
-        setTimes.clear();
-        setWeights.clear();
-        setRepetitions.clear();
+    @Override
+    protected void onResume() {
+        super.onResume();
+        displaySets();
+        String exerciseName = m_exerciseDB.getNameFromID(m_exerciseID);
+        setTitle(exerciseName);
+    }
 
-        Cursor cursor = m_exerciseDB.readExerciseSets(m_exerciseID); // TODO: Change this function to display sets of the given exercise id
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.view_exercise_menu, menu);
+        return super.onCreateOptionsMenu(menu);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        int id = item.getItemId();
+
+        if(id == R.id.app_bar_edit) {
+            Intent i = new Intent(this, ChangeExerciseName.class);
+            i.putExtra("ID", m_exerciseID);
+            startActivity(i);
+        }
+
+        if (id == R.id.app_bar_delete) {
+            alertBuilder.setTitle("Delete Exercise");
+            alertBuilder.setMessage("Are you sure you want to delete this exercise? All related sets will also be deleted. This action can not be undone.");
+            alertBuilder.setCancelable(true);
+            alertBuilder.setPositiveButton("Delete", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialogInterface, int i) {
+                    //delete the exercise and return to parent activity
+                    m_exerciseDB.deleteExercise(m_exerciseID);
+                    finish();
+                }
+            });
+            alertBuilder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialogInterface, int i) {
+                    dialogInterface.cancel();
+                }
+            });
+            alertBuilder.show();
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
+    private void displaySets() {
+        dateList.clear();
+
+        Cursor cursor = m_exerciseDB.readExerciseSets(m_exerciseID);
         if(cursor.getCount() == 0) {
             //Toast.makeText(this, "No data.", Toast.LENGTH_SHORT).show();
         } else {
             while(cursor.moveToNext()) {
-                setIDs.add(cursor.getString(0)); // 0: id
-                setTimes.add(cursor.getString(1)); // 1: timestamp
-                setWeights.add(cursor.getString(3)); // 3: weight
-                setRepetitions.add(cursor.getString(4)); // 4: repetitions
+                long timestamp = cursor.getLong(1); // 1: time
+                Date date_timestamp = new Date(timestamp);
+                Calendar cal = Calendar.getInstance();
+                cal.setTime(date_timestamp);
+
+                int year, month, date;
+                year = cal.get(Calendar.YEAR);
+                month = cal.get(Calendar.MONTH);
+                date = cal.get(Calendar.DATE);
+                cal.clear();
+                cal.set(year, month, date);
+
+                if(!dateList.contains(cal)) {
+                    dateList.add(cal);
+                }
             }
         }
 
-        RecyclerView recyclerView = findViewById(R.id.recyclerViewSets);
-        SetListAdapter adapter = new SetListAdapter(this, setIDs, setTimes, setWeights, setRepetitions);
+        RecyclerView recyclerView = findViewById(R.id.recyclerViewDates);
+        DaySetListAdapter adapter = new DaySetListAdapter(this, dateList, m_exerciseID);
         recyclerView.setAdapter(adapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
     }

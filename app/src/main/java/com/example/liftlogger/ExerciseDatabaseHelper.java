@@ -118,6 +118,22 @@ public class ExerciseDatabaseHelper extends SQLiteOpenHelper {
         return cursor;
     }
 
+    public Cursor readExerciseSetsBetweenTimestamps(String exerciseID, long startTime, long endTime) {
+        String strStartTime = String.valueOf(startTime);
+        String strEndTime = String.valueOf(endTime);
+        String query = "SELECT * FROM " + SET_TABLE + " WHERE " + SET_TABLE_EXERCISE_ID + " = " + exerciseID +
+                " AND " + SET_TABLE_TIMESTAMP + " >= " + strStartTime + " AND " + SET_TABLE_TIMESTAMP + " < " + strEndTime +
+                " ORDER BY " + SET_TABLE_FAVOURITE + " DESC, " + SET_TABLE_TIMESTAMP + " DESC";
+        SQLiteDatabase db = this.getReadableDatabase();
+
+        Cursor cursor = null;
+        if(db != null) {
+            cursor = db.rawQuery(query, null);
+        }
+
+        return cursor;
+    }
+
     public String getNameFromID(String id) {
         String query = "SELECT * FROM " + EXERCISE_TABLE + " WHERE " + EXERCISE_TABLE_ID + " = " + id;
         SQLiteDatabase db = this.getReadableDatabase();
@@ -157,6 +173,25 @@ public class ExerciseDatabaseHelper extends SQLiteOpenHelper {
     public void setFavouriteExercise(String id, boolean isFavourite) {
         String value = isFavourite ? "1" : "0";
         String query = "UPDATE " + EXERCISE_TABLE + " SET " + EXERCISE_TABLE_FAVOURITE + " = " + value +
+                " WHERE " + EXERCISE_TABLE_ID + " = " + id;
+
+        SQLiteDatabase db = this.getWritableDatabase();
+        db.execSQL(query);
+    }
+
+    public void deleteExercise(String id) {
+        String query = "DELETE FROM " + EXERCISE_TABLE + " WHERE " + EXERCISE_TABLE_ID + " = " + id;
+
+        SQLiteDatabase db = this.getWritableDatabase();
+        db.execSQL(query);
+
+        query = "DELETE FROM " + SET_TABLE + " WHERE " + SET_TABLE_EXERCISE_ID + " = " + id;
+
+        db.execSQL(query);
+    }
+
+    public void changeName(String id, String newName) {
+        String query = "UPDATE " + EXERCISE_TABLE + " SET " + EXERCISE_TABLE_NAME + " = " + "\"" + newName + "\"" +
                 " WHERE " + EXERCISE_TABLE_ID + " = " + id;
 
         SQLiteDatabase db = this.getWritableDatabase();

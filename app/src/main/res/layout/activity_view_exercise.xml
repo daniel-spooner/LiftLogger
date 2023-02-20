@@ -8,8 +8,8 @@
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/addSetLayout"
-        android:layout_width="409dp"
-        android:layout_height="729dp"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -48,7 +48,7 @@
             android:layout_marginTop="16dp"
             android:ems="10"
             android:hint="0"
-            android:inputType="number"
+            android:inputType="numberDecimal"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@+id/textViewWeight"
             app:layout_constraintTop_toTopOf="parent" />
@@ -77,7 +77,7 @@
             app:layout_constraintTop_toBottomOf="@+id/editTextNumberRepetitions" />
 
         <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/recyclerViewSets"
+            android:id="@+id/recyclerViewDates"
             android:layout_width="0dp"
             android:layout_height="0dp"
             android:layout_marginTop="24dp"
