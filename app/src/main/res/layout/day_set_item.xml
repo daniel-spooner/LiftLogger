@@ -14,7 +14,7 @@
         android:layout_marginEnd="8dp"
         android:layout_marginBottom="4dp"
         android:clickable="false"
-        app:cardBackgroundColor="#191919"
+        app:cardBackgroundColor="@color/gunmetal_grey"
         app:cardCornerRadius="5dp"
         app:cardElevation="8dp"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -28,7 +28,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
             android:layout_marginBottom="16dp"
-            android:background="#191919">
+            android:background="@color/gunmetal_grey">
 
             <TextView
                 android:id="@+id/textViewSetDate"
@@ -59,6 +59,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_marginStart="8dp"
+                android:layout_marginTop="8dp"
                 android:layout_marginEnd="8dp"
                 android:visibility="gone"
                 app:layout_constraintBottom_toBottomOf="parent"

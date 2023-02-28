@@ -127,7 +127,8 @@ public class DaySetListAdapter extends RecyclerView.Adapter<DaySetListAdapter.Da
                 }
             }
 
-            SetListAdapter adapter = new SetListAdapter(context, setList);
+            String exerciseName = exerciseDB.getNameFromID(exerciseID);
+            SetListAdapter adapter = new SetListAdapter(context, setList, exerciseName);
             rvSets.setAdapter(adapter);
             rvSets.setLayoutManager(new LinearLayoutManager(context));
         }

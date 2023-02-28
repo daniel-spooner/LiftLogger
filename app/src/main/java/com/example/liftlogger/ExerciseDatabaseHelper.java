@@ -23,7 +23,7 @@ public class ExerciseDatabaseHelper extends SQLiteOpenHelper {
     private static final String SET_TABLE_ID = "id";
     private static final String SET_TABLE_TIMESTAMP = "timestamp";
     private static final String SET_TABLE_EXERCISE_ID = "exercise_id";
-    private static final String SET_TABLE_WEIGHT_KG = "weight_kg";
+    private static final String SET_TABLE_WEIGHT_LBS = "weight_kg"; //TODO: change this to weight_lbs
     private static final String SET_TABLE_REPETITIONS = "repetitions";
     private static final String SET_TABLE_FAVOURITE = "favourite";
 
@@ -41,14 +41,15 @@ public class ExerciseDatabaseHelper extends SQLiteOpenHelper {
         // Create the exercise names table
         query =
                 "CREATE TABLE IF NOT EXISTS " + EXERCISE_TABLE + " (" + EXERCISE_TABLE_ID +
-                        " INTEGER PRIMARY KEY AUTOINCREMENT, " + EXERCISE_TABLE_NAME + " TEXT, " + EXERCISE_TABLE_FAVOURITE + " INTEGER" + ");";
+                        " INTEGER PRIMARY KEY AUTOINCREMENT, " + EXERCISE_TABLE_NAME + " TEXT, " +
+                        EXERCISE_TABLE_FAVOURITE + " INTEGER" + ");";
         db.execSQL(query);
 
         // Create the exercise sets table
         query =
                 "CREATE TABLE IF NOT EXISTS " + SET_TABLE + " (" + SET_TABLE_ID +
                         " INTEGER PRIMARY KEY AUTOINCREMENT, " + SET_TABLE_TIMESTAMP + " INTEGER, " +
-                        SET_TABLE_EXERCISE_ID + " TEXT, " + SET_TABLE_WEIGHT_KG + " REAL, " +
+                        SET_TABLE_EXERCISE_ID + " TEXT, " + SET_TABLE_WEIGHT_LBS + " REAL, " +
                         SET_TABLE_REPETITIONS + " INTEGER, " + SET_TABLE_FAVOURITE + " INTEGER" + ");";
         db.execSQL(query);
     }
@@ -80,7 +81,7 @@ public class ExerciseDatabaseHelper extends SQLiteOpenHelper {
         ContentValues cv = new ContentValues();
         cv.put(SET_TABLE_EXERCISE_ID, exercise_id);
         cv.put(SET_TABLE_TIMESTAMP, timestamp);
-        cv.put(SET_TABLE_WEIGHT_KG, weight);
+        cv.put(SET_TABLE_WEIGHT_LBS, weight);
         cv.put(SET_TABLE_REPETITIONS, repetitions);
         cv.put(SET_TABLE_FAVOURITE, 0); // Initialize favourite as False
 
@@ -116,6 +117,27 @@ public class ExerciseDatabaseHelper extends SQLiteOpenHelper {
         }
 
         return cursor;
+    }
+
+    public Cursor readExerciseSet(String setID) {
+        String query = "SELECT * FROM " + SET_TABLE + " WHERE " + SET_TABLE_ID + " = " + setID;
+        SQLiteDatabase db = this.getReadableDatabase();
+
+        Cursor cursor = null;
+        if(db != null) {
+            cursor = db.rawQuery(query, null);
+        }
+
+        return cursor;
+    }
+
+    public void updateExerciseSet(String setID, String timestamp, String weight, String repetitions) {
+        String query = "UPDATE "+ SET_TABLE + " SET " + SET_TABLE_TIMESTAMP + " = " + timestamp + ", " +
+                SET_TABLE_WEIGHT_LBS + " = " + weight + ", " + SET_TABLE_REPETITIONS + " = " + repetitions +
+                " WHERE " + SET_TABLE_ID + " = " + setID;
+
+        SQLiteDatabase db = this.getWritableDatabase();
+        db.execSQL(query);
     }
 
     public Cursor readExerciseSetsBetweenTimestamps(String exerciseID, long startTime, long endTime) {
@@ -187,6 +209,13 @@ public class ExerciseDatabaseHelper extends SQLiteOpenHelper {
 
         query = "DELETE FROM " + SET_TABLE + " WHERE " + SET_TABLE_EXERCISE_ID + " = " + id;
 
+        db.execSQL(query);
+    }
+
+    public void deleteSet(String id) {
+        String query = "DELETE FROM " + SET_TABLE + " WHERE " + SET_TABLE_ID + " = " + id;
+
+        SQLiteDatabase db = this.getWritableDatabase();
         db.execSQL(query);
     }
 

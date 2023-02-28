@@ -20,11 +20,13 @@ public class SetListAdapter extends RecyclerView.Adapter<SetListAdapter.SetViewH
 
     Context context;
     ArrayList<SetListItem> setList;
+    String exerciseName;
 
-    public SetListAdapter(Context context, ArrayList setList) {
+    public SetListAdapter(Context context, ArrayList setList, String exerciseName) {
         this.context = context;
 
         this.setList = setList;
+        this.exerciseName = exerciseName;
     }
 
     @NonNull
@@ -54,11 +56,11 @@ public class SetListAdapter extends RecyclerView.Adapter<SetListAdapter.SetViewH
         holder.tvRepetitions.setText(repetitionText);
 
         holder.mainLayout.setOnClickListener(new View.OnClickListener() {
-            // disable on click for sets for now
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(context, EditSet.class);
                 intent.putExtra("ID", String.valueOf(setList.get(holder.getAdapterPosition()).getID()));
+                intent.putExtra("NAME", exerciseName);
                 context.startActivity(intent);
             }
         });

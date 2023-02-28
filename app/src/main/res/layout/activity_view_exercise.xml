@@ -10,6 +10,7 @@
         android:id="@+id/addSetLayout"
         android:layout_width="0dp"
         android:layout_height="0dp"
+        android:background="@color/night"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -20,10 +21,13 @@
             android:layout_width="wrap_content"
             android:layout_height="48dp"
             android:layout_marginStart="16dp"
-            android:layout_marginTop="24dp"
+            android:layout_marginTop="16dp"
+            android:backgroundTint="@color/white"
             android:ems="10"
             android:hint="0"
             android:inputType="number"
+            android:textColor="@color/white"
+            android:textColorHint="@color/light_grey"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@+id/textViewWeight"
             app:layout_constraintTop_toBottomOf="@+id/editTextNumberWeight" />
@@ -33,9 +37,10 @@
             android:layout_width="120dp"
             android:layout_height="48dp"
             android:layout_marginStart="16dp"
-            android:layout_marginTop="24dp"
+            android:layout_marginTop="16dp"
             android:gravity="center_vertical"
             android:text="Repetitions: "
+            android:textColor="@color/white"
             android:textSize="20sp"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/textViewWeight" />
@@ -46,9 +51,12 @@
             android:layout_height="48dp"
             android:layout_marginStart="16dp"
             android:layout_marginTop="16dp"
+            android:backgroundTint="@color/white"
             android:ems="10"
             android:hint="0"
             android:inputType="numberDecimal"
+            android:textColor="@color/white"
+            android:textColorHint="@color/light_grey"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@+id/textViewWeight"
             app:layout_constraintTop_toTopOf="parent" />
@@ -61,6 +69,7 @@
             android:layout_marginTop="16dp"
             android:gravity="center_vertical"
             android:text="Weight: "
+            android:textColor="@color/white"
             android:textSize="20sp"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
@@ -69,23 +78,26 @@
             android:id="@+id/buttonAddSet"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="24dp"
+            android:layout_marginTop="16dp"
+            android:backgroundTint="@color/klein_blue"
             android:onClick="pressAddSet"
             android:text="Add Set"
+            android:textColor="@color/white"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/editTextNumberRepetitions" />
+
+
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/recyclerViewDates"
             android:layout_width="0dp"
             android:layout_height="0dp"
-            android:layout_marginTop="24dp"
-            android:background="#888888"
+            android:layout_marginTop="16dp"
+            android:background="@color/night"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/buttonAddSet"
-            app:layout_constraintVertical_bias="0.772" />
+            app:layout_constraintTop_toBottomOf="@+id/buttonAddSet" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>

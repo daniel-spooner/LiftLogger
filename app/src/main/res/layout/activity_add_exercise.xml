@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/night"
     tools:context=".AddExercise">
 
     <EditText
@@ -11,9 +12,12 @@
         android:layout_width="285dp"
         android:layout_height="48dp"
         android:layout_marginTop="24dp"
+        android:backgroundTint="@color/white"
         android:ems="10"
-        android:hint="Exercise Name"
+        android:hint="New Exercise"
         android:inputType="textPersonName"
+        android:textColor="@color/white"
+        android:textColorHint="@color/light_grey"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textViewExerciseName" />
@@ -24,6 +28,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="64dp"
         android:text="Exercise Name:"
+        android:textColor="@color/white"
         android:textSize="20sp"
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
@@ -35,8 +40,10 @@
         android:layout_width="232dp"
         android:layout_height="65dp"
         android:layout_marginTop="32dp"
+        android:backgroundTint="@color/black"
         android:onClick="pressCreateExercise"
         android:text="Create Exercise"
+        android:textColor="@color/white"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.497"
         app:layout_constraintStart_toStartOf="parent"
