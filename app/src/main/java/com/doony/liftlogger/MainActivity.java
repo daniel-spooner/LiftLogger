@@ -1,4 +1,4 @@
-package com.example.liftlogger;
+package com.doony.liftlogger;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.SearchView;
@@ -14,6 +14,7 @@ import android.view.View;
 import android.view.inputmethod.EditorInfo;
 
 import java.util.ArrayList;
+import java.util.Locale;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -89,6 +90,9 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void displayExercises(String filter) {
+
+        filter = filter.toLowerCase();
+
         exerciseList.clear();
         Cursor cursor = exerciseDB.readExercises();
 

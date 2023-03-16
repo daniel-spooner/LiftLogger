@@ -1,4 +1,4 @@
-package com.example.liftlogger;
+package com.doony.liftlogger;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBar;

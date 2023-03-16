@@ -1,4 +1,4 @@
-package com.example.liftlogger;
+package com.doony.liftlogger;
 
 import android.content.Context;
 import android.content.Intent;
@@ -13,7 +13,6 @@ import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.Date;
 
 public class SetListAdapter extends RecyclerView.Adapter<SetListAdapter.SetViewHolder> {

@@ -1,4 +1,4 @@
-package com.example.liftlogger;
+package com.doony.liftlogger;
 
 public class SetListItem {
     private String id;

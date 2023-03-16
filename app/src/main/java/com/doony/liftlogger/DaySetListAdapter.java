@@ -1,4 +1,4 @@
-package com.example.liftlogger;
+package com.doony.liftlogger;
 
 import android.content.Context;
 import android.database.Cursor;
@@ -16,7 +16,6 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.Date;
 
 public class DaySetListAdapter extends RecyclerView.Adapter<DaySetListAdapter.DaySetViewHolder> {
     Context context;

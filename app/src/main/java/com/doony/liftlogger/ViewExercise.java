@@ -1,8 +1,7 @@
-package com.example.liftlogger;
+package com.doony.liftlogger;
 
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.SearchView;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -13,7 +12,6 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.inputmethod.EditorInfo;
 import android.widget.EditText;
 import android.widget.Toast;
 

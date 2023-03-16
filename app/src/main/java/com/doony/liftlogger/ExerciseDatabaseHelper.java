@@ -1,4 +1,4 @@
-package com.example.liftlogger;
+package com.doony.liftlogger;
 
 import android.content.ContentValues;
 import android.content.Context;
@@ -23,7 +23,7 @@ public class ExerciseDatabaseHelper extends SQLiteOpenHelper {
     private static final String SET_TABLE_ID = "id";
     private static final String SET_TABLE_TIMESTAMP = "timestamp";
     private static final String SET_TABLE_EXERCISE_ID = "exercise_id";
-    private static final String SET_TABLE_WEIGHT_LBS = "weight_kg"; //TODO: change this to weight_lbs
+    private static final String SET_TABLE_WEIGHT_LBS = "weight_lbs";
     private static final String SET_TABLE_REPETITIONS = "repetitions";
     private static final String SET_TABLE_FAVOURITE = "favourite";
 
@@ -95,7 +95,7 @@ public class ExerciseDatabaseHelper extends SQLiteOpenHelper {
 
     public Cursor readExercises() {
         String query = "SELECT * FROM " + EXERCISE_TABLE +
-                " ORDER BY " + EXERCISE_TABLE_FAVOURITE + " DESC, " + EXERCISE_TABLE_NAME + " ASC ";
+                " ORDER BY " + EXERCISE_TABLE_FAVOURITE + " DESC, " + "LOWER(" + EXERCISE_TABLE_NAME + ") ASC ";
         SQLiteDatabase db = this.getReadableDatabase();
 
         Cursor cursor = null;

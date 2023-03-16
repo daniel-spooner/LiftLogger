@@ -1,6 +1,5 @@
-package com.example.liftlogger;
+package com.doony.liftlogger;
 
-import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
