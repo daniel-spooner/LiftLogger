@@ -129,6 +129,7 @@ public class ViewExercise extends AppCompatActivity {
         }
 
         RecyclerView recyclerView = findViewById(R.id.recyclerViewDates);
+//        recyclerView.getRecycledViewPool().setMaxRecycledViews(0, 100);
         DaySetListAdapter adapter = new DaySetListAdapter(this, dateList, m_exerciseID);
         recyclerView.setAdapter(adapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));

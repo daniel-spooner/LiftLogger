@@ -34,7 +34,16 @@ public class ExerciseListAdapter extends RecyclerView.Adapter<ExerciseListAdapte
 
     @Override
     public void onBindViewHolder(@NonNull final ExerciseViewHolder holder, final int position) {
-        holder.tvName.setText(String.valueOf(exerciseList.get(position).getName()));
+        String exerciseName = String.valueOf(exerciseList.get(position).getName());
+        float fontSize = 20;
+        if (exerciseName.length() > 20) {
+            fontSize = 2 * fontSize - (exerciseName.length() * 0.9f);
+        }
+        if (fontSize > 20) {fontSize = 20;}
+
+        holder.tvName.setText(exerciseName);
+        holder.tvName.setTextSize(fontSize);
+        // reduce font size if the string has len > 20
         int imageResource = exerciseList.get(position).getFavourite() == 1 ? R.drawable.ic_baseline_star_24 : R.drawable.ic_baseline_star_outline_24;
         holder.btnFavourite.setImageResource(imageResource);
         holder.mainLayout.setOnClickListener(new View.OnClickListener() {

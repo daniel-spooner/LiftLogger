@@ -3,6 +3,7 @@ package com.doony.liftlogger;
 import android.content.Context;
 import android.database.Cursor;
 import android.text.format.DateFormat;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -40,6 +41,10 @@ public class DaySetListAdapter extends RecyclerView.Adapter<DaySetListAdapter.Da
     public DaySetViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         LayoutInflater inflater = LayoutInflater.from(context);
         View view = inflater.inflate(R.layout.day_set_item, parent, false);
+//        Log.d("DaySetListAdapter", "CreateViewHolder");
+//        DaySetViewHolder viewHolder = new DaySetListAdapter.DaySetViewHolder(view);
+//        viewHolder.setIsRecyclable(false);
+//        return viewHolder;
         return new DaySetListAdapter.DaySetViewHolder(view);
     }
 
@@ -49,7 +54,7 @@ public class DaySetListAdapter extends RecyclerView.Adapter<DaySetListAdapter.Da
         timeText = (String) DateFormat.format("MMMM dd yyyy", dateList.get(position).getTimeInMillis());
 
         holder.tvTime.setText(timeText);
-
+//        holder.setIsRecyclable(false);
 
         Calendar cal = dateList.get(holder.getAdapterPosition());
         if(currentYear == cal.get(Calendar.YEAR) && currentMonth == cal.get(Calendar.MONTH) && currentDate == cal.get(Calendar.DATE)) {

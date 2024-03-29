@@ -46,8 +46,6 @@ public class SetListAdapter extends RecyclerView.Adapter<SetListAdapter.SetViewH
         weightText = String.valueOf(setList.get(position).getWeight()) + " lbs";
         repetitionText = String.valueOf(setList.get(position).getRepetitions()) + " reps";
 
-        Date date = new Date(Long.parseLong(timeText));
-
         timeText = (String) DateFormat.format("hh:mm aa", Long.parseLong(timeText));
 
         holder.tvTime.setText(timeText);

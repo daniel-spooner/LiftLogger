@@ -23,7 +23,7 @@ public class ExerciseDatabaseHelper extends SQLiteOpenHelper {
     private static final String SET_TABLE_ID = "id";
     private static final String SET_TABLE_TIMESTAMP = "timestamp";
     private static final String SET_TABLE_EXERCISE_ID = "exercise_id";
-    private static final String SET_TABLE_WEIGHT_LBS = "weight_lbs";
+    private static final String SET_TABLE_WEIGHT_KG = "weight_kg";
     private static final String SET_TABLE_REPETITIONS = "repetitions";
     private static final String SET_TABLE_FAVOURITE = "favourite";
 
@@ -49,7 +49,7 @@ public class ExerciseDatabaseHelper extends SQLiteOpenHelper {
         query =
                 "CREATE TABLE IF NOT EXISTS " + SET_TABLE + " (" + SET_TABLE_ID +
                         " INTEGER PRIMARY KEY AUTOINCREMENT, " + SET_TABLE_TIMESTAMP + " INTEGER, " +
-                        SET_TABLE_EXERCISE_ID + " TEXT, " + SET_TABLE_WEIGHT_LBS + " REAL, " +
+                        SET_TABLE_EXERCISE_ID + " TEXT, " + SET_TABLE_WEIGHT_KG + " REAL, " +
                         SET_TABLE_REPETITIONS + " INTEGER, " + SET_TABLE_FAVOURITE + " INTEGER" + ");";
         db.execSQL(query);
     }
@@ -81,7 +81,7 @@ public class ExerciseDatabaseHelper extends SQLiteOpenHelper {
         ContentValues cv = new ContentValues();
         cv.put(SET_TABLE_EXERCISE_ID, exercise_id);
         cv.put(SET_TABLE_TIMESTAMP, timestamp);
-        cv.put(SET_TABLE_WEIGHT_LBS, weight);
+        cv.put(SET_TABLE_WEIGHT_KG, weight);
         cv.put(SET_TABLE_REPETITIONS, repetitions);
         cv.put(SET_TABLE_FAVOURITE, 0); // Initialize favourite as False
 
@@ -133,7 +133,7 @@ public class ExerciseDatabaseHelper extends SQLiteOpenHelper {
 
     public void updateExerciseSet(String setID, String timestamp, String weight, String repetitions) {
         String query = "UPDATE "+ SET_TABLE + " SET " + SET_TABLE_TIMESTAMP + " = " + timestamp + ", " +
-                SET_TABLE_WEIGHT_LBS + " = " + weight + ", " + SET_TABLE_REPETITIONS + " = " + repetitions +
+                SET_TABLE_WEIGHT_KG + " = " + weight + ", " + SET_TABLE_REPETITIONS + " = " + repetitions +
                 " WHERE " + SET_TABLE_ID + " = " + setID;
 
         SQLiteDatabase db = this.getWritableDatabase();
